@@ -1,0 +1,20 @@
+{
+    "name": "mariusadam/bee-game",
+    "description": "You know, just a bee game",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "BeeGame\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}

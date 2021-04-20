@@ -1,0 +1,9 @@
+<?php /** @var \BeeGame\Templating\PHtmlTemplateEngine $this */ ?>
+<?php /** @var array $params */ ?>
+<?php /** @var \BeeGame\Http\Request $request */ ?>
+<?php $request = $params['request'] ?>
+The page you are looking for
+ <i><?php $this->escape($request->getMethod()); ?></i>
+<b>"<?php $this->escape($request->getPath()); ?>"</b>
+ does not exist.
+Please return to <a href="/">homepage</a>.
