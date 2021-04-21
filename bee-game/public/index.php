@@ -11,10 +11,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 /** @var Container $container */
 $container = require_once __DIR__.'/../config/container.php';
 
-//header('Content-Type: application/json');
-//echo json_encode($_SERVER);
-//die;
-
 $request = new Request(
     $_SERVER['REQUEST_METHOD'],
     $_SERVER['PATH_INFO'] ?? '/',
