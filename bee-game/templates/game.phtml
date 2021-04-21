@@ -1,2 +1,61 @@
-This is the game:
-<?php var_dump($params['game']); ?>
+<?php /** @var \BeeGame\Templating\PHtmlTemplateEngine $this */ ?>
+<?php /** @var array $params */ ?>
+<?php /** @var \BeeGame\Model\Game $game */ ?>
+<?php $game = $params['game'] ?>
+<?php $lastHitResult = $game->getLastHitResult() ?>
+<?php $lastMessage = $params['lastMessage'] ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Bee Game</title>
+</head>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<?php if (null !== $lastMessage): ?>
+    <script>
+        alert("<?php $this->escape($lastMessage); ?>");
+    </script>
+<?php endif; ?>
+<h1>Hello, <?php $this->escape($game->getPlayerName()); ?>, press "Hit" button below to randomly hit a bee</h1>
+<div>
+    <h2>Game controls</h2>
+    <form method="post" action="/hit-bee">
+        <input type="submit" name="submit" value="HIT">
+    </form>
+</div>
+<div>
+    <h2>Last HIT</h2>
+    <?php if (null !== $lastHitResult): ?>
+        Bee Type: <?php $this->escape($lastHitResult->getBee()->getType()); ?>, damage suffered: <?php $this->escape($lastHitResult->getInflictedDamage()); ?>
+    <?php else: ?>
+        There is not last hit.
+    <?php endif; ?>
+</div>
+<div>
+    <h2>Swarm status</h2>
+    <table>
+        <tr>
+            <th>Bee Type</th>
+            <th>HP</th>
+            <th>Was hit last lime</th>
+        </tr>
+        <?php foreach ($game->getSwarm() as $bee): ?>
+            <tr>
+                <td><?php $this->escape($bee->getType()); ?></td>
+                <td><?php $this->escape($bee->getHp()); ?></td>
+                <td><?php $this->escape($game->wasHitLastTime($bee) ? 'X' : ''); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>
+</body>
+</html>

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Factory;
 
-use BeeGame\Model\Game;
-use PHPUnit\Framework\TestCase;
 use BeeGame\Factory\GameFactory;
+use PHPUnit\Framework\TestCase;
 
 class GameFactoryTest extends TestCase
 {
@@ -14,9 +13,6 @@ class GameFactoryTest extends TestCase
     {
         $factory = new GameFactory();
         $playerName = 'The test';
-        $expectedGame = new Game(
-            $playerName
-        );
-        self::assertEquals($expectedGame, $factory->createNewGame($playerName));
+        self::assertEquals($playerName, $factory->createNewGame($playerName)->getPlayerName());
     }
 }

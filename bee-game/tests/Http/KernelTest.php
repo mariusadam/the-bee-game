@@ -16,12 +16,6 @@ class KernelTest extends TestCase
     private Kernel $kernel;
     private Router $router;
 
-    protected function setUp(): void
-    {
-        $this->router = $this->createMock(Router::class);
-        $this->kernel = new Kernel($this->router);
-    }
-
     public function testHandle(): void
     {
         $request = $this->createMock(Request::class);
@@ -39,5 +33,11 @@ class KernelTest extends TestCase
         $this->router->method('match')->willReturn($controller);
 
         self::assertSame($response, $this->kernel->handle($request));
+    }
+
+    protected function setUp(): void
+    {
+        $this->router = $this->createMock(Router::class);
+        $this->kernel = new Kernel($this->router);
     }
 }

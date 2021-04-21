@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Controller;
 
+use BeeGame\Controller\HomepageController;
 use BeeGame\Http\Request;
 use BeeGame\Http\Response;
-use PHPUnit\Framework\TestCase;
-use BeeGame\Controller\HomepageController;
+use BeeGame\Http\Session;
+use BeeGame\Model\Game;
 use BeeGame\Templating\TemplateEngineInterface;
+use PHPUnit\Framework\TestCase;
 
 class HomepageControllerTest extends TestCase
 {
-    private HomepageController $controller;
+    private Session $session;
     private TemplateEngineInterface $templateEngine;
-
-    protected function setUp(): void
-    {
-        $this->templateEngine = $this->createMock(TemplateEngineInterface::class);
-        $this->controller = new HomepageController($this->templateEngine);
-    }
+    private HomepageController $controller;
 
     public function testInvoke(): void
     {
-        $request = $this->createMock(Request::class);
         $renderedBody = 'Rendered homepage';
         $this->templateEngine
             ->expects(self::once())
@@ -32,6 +28,26 @@ class HomepageControllerTest extends TestCase
             ->willReturn($renderedBody);
 
         $expected = new Response(200, $renderedBody);
-        self::assertEquals($expected, ($this->controller)($request));
+        self::assertEquals($expected, ($this->controller)($this->createMock(Request::class)));
+    }
+
+    public function testInvokeRedirectsToPlayWhenGameExistsInSession(): void
+    {
+        $this->session
+            ->method('get')
+            ->with('game')
+            ->willReturn($this->createMock(Game::class));
+
+        self::assertEquals(
+            Response::forRedirectTo('/play'),
+            ($this->controller)($this->createMock(Request::class))
+        );
+    }
+
+    protected function setUp(): void
+    {
+        $this->session = $this->createMock(Session::class);
+        $this->templateEngine = $this->createMock(TemplateEngineInterface::class);
+        $this->controller = new HomepageController($this->session, $this->templateEngine);
     }
 }

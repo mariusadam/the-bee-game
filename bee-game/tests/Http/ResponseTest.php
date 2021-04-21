@@ -11,12 +11,6 @@ use Tests\TestUtils\HeaderFunctionsHelper;
 
 class ResponseTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // clean up the headers that might have been collected so far
-        HeaderFunctionsHelper::$headers = [];
-    }
-
     public function testSend(): void
     {
         $body = 'This is the response body';
@@ -28,10 +22,10 @@ class ResponseTest extends TestCase
 
         $expectedHeaders = [
             [
-                'header' => 'HTTP/1.0 404 Not Found',
-                'replace' => true,
-                'response_code' => 404
-            ]
+                'header'        => 'HTTP/1.0 404 Not Found',
+                'replace'       => true,
+                'response_code' => 404,
+            ],
         ];
 
         self::assertSame($expectedHeaders, HeaderFunctionsHelper::$headers);
@@ -44,10 +38,10 @@ class ResponseTest extends TestCase
         $response->send();
         $expectedHeaders = [
             [
-                'header' => 'HTTP/1.1 123 Unknown Status',
-                'replace' => true,
-                'response_code' => 123
-            ]
+                'header'        => 'HTTP/1.1 123 Unknown Status',
+                'replace'       => true,
+                'response_code' => 123,
+            ],
         ];
 
         self::assertSame($expectedHeaders, HeaderFunctionsHelper::$headers);
@@ -59,17 +53,23 @@ class ResponseTest extends TestCase
         $response->send();
         $expectedHeaders = [
             [
-                'header' => 'Location: /test/redirect',
-                'replace' => true,
-                'response_code' => 302
+                'header'        => 'Location: /test/redirect',
+                'replace'       => true,
+                'response_code' => 302,
             ],
             [
-                'header' => 'HTTP/1.0 302 Found',
-                'replace' => true,
-                'response_code' => 302
-            ]
+                'header'        => 'HTTP/1.0 302 Found',
+                'replace'       => true,
+                'response_code' => 302,
+            ],
         ];
 
         self::assertSame($expectedHeaders, HeaderFunctionsHelper::$headers);
+    }
+
+    protected function setUp(): void
+    {
+        // clean up the headers that might have been collected so far
+        HeaderFunctionsHelper::$headers = [];
     }
 }

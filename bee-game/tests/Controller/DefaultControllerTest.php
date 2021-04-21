@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Controller;
 
+use BeeGame\Controller\DefaultController;
 use BeeGame\Http\Request;
 use BeeGame\Http\Response;
-use PHPUnit\Framework\TestCase;
-use BeeGame\Controller\DefaultController;
 use BeeGame\Templating\TemplateEngineInterface;
+use PHPUnit\Framework\TestCase;
 
 class DefaultControllerTest extends TestCase
 {
     private DefaultController $controller;
     private TemplateEngineInterface $templateEngine;
-
-    protected function setUp(): void
-    {
-        $this->templateEngine = $this->createMock(TemplateEngineInterface::class);
-        $this->controller = new DefaultController($this->templateEngine);
-    }
 
     public function testInvoke(): void
     {
@@ -33,5 +27,11 @@ class DefaultControllerTest extends TestCase
 
         $expected = new Response(404, $renderedBody);
         self::assertEquals($expected, ($this->controller)($request));
+    }
+
+    protected function setUp(): void
+    {
+        $this->templateEngine = $this->createMock(TemplateEngineInterface::class);
+        $this->controller = new DefaultController($this->templateEngine);
     }
 }

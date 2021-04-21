@@ -16,17 +16,26 @@ class Session
         $_SESSION[$key] = $value;
     }
 
-    public function get(string $key)
-    {
-        $this->ensureIsStarted();
-
-        return $_SESSION[$key];
-    }
-
     private function ensureIsStarted(): void
     {
         if (PHP_SESSION_NONE === session_status()) {
             session_start();
         }
+    }
+
+    public function get(string $key)
+    {
+        $this->ensureIsStarted();
+
+        return $_SESSION[$key] ?? null;
+    }
+
+    public function getAndRemove(string $key)
+    {
+        $value = $this->get($key);
+
+        unset($_SESSION[$key]);
+
+        return $value;
     }
 }

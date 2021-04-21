@@ -28,7 +28,10 @@ class PlayController implements ControllerInterface
             return Response::forRedirectTo('/');
         }
 
-        $params = ['game' => $game];
+        $params = [
+            'game'        => $game,
+            'lastMessage' => $this->session->getAndRemove('lastMessage'),
+        ];
 
         return new Response(
             Response::HTTP_OK,

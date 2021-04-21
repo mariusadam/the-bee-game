@@ -6,8 +6,8 @@ namespace Tests\Http;
 
 use BeeGame\Http\ControllerInterface;
 use BeeGame\Http\Request;
-use BeeGame\Http\Router;
 use BeeGame\Http\Route;
+use BeeGame\Http\Router;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
@@ -18,27 +18,15 @@ class RouterTest extends TestCase
     private ControllerInterface $thirdController;
     private ControllerInterface $defaultController;
 
-    protected function setUp(): void
-    {
-        $this->firstController = $this->createMock(ControllerInterface::class);
-        $this->secondController = $this->createMock(ControllerInterface::class);
-        $this->thirdController = $this->createMock(ControllerInterface::class);
-        $this->defaultController = $this->createMock(ControllerInterface::class);
-
-        $this->router = new Router(
-            [
-                new Route('GET', '/test', $this->firstController),
-                new Route('POST', '/another/test/path', $this->secondController),
-                new Route('GET', '/', $this->thirdController)
-            ],
-            $this->defaultController
-        );
-    }
-
     public function testMatchReturnsFirstControllerThatCanHandleTheRequest(): void
     {
         self::assertSame($this->firstController, $this->invokeMatch('GET', '/test/'));
         self::assertSame($this->secondController, $this->invokeMatch('POST', '/another/test/path'));
+    }
+
+    private function invokeMatch(string $method, string $path): ControllerInterface
+    {
+        return $this->router->match(new Request($method, $path));
     }
 
     public function testMatchReturnsDefaultControllerWhenThereIsNoMatch(): void
@@ -51,8 +39,20 @@ class RouterTest extends TestCase
         self::assertSame($this->thirdController, $this->invokeMatch('GET', '/'));
     }
 
-    private function invokeMatch(string $method, string $path): ControllerInterface
+    protected function setUp(): void
     {
-        return $this->router->match(new Request($method, $path));
+        $this->firstController = $this->createMock(ControllerInterface::class);
+        $this->secondController = $this->createMock(ControllerInterface::class);
+        $this->thirdController = $this->createMock(ControllerInterface::class);
+        $this->defaultController = $this->createMock(ControllerInterface::class);
+
+        $this->router = new Router(
+            [
+                new Route('GET', '/test', $this->firstController),
+                new Route('POST', '/another/test/path', $this->secondController),
+                new Route('GET', '/', $this->thirdController),
+            ],
+            $this->defaultController
+        );
     }
 }

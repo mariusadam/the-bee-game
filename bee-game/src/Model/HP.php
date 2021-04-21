@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BeeGame\Model;
 
+use InvalidArgumentException;
+
 /**
  * Value object representing health points
  */
@@ -23,10 +25,15 @@ class HP
                 self::MAX
             );
 
-            throw new \InvalidArgumentException($message);
+            throw new InvalidArgumentException($message);
         }
 
         $this->value = $value;
+    }
+
+    public static function zero(): self
+    {
+        return self::fromValue(0);
     }
 
     public static function fromValue(int $value): self
@@ -37,5 +44,15 @@ class HP
     public function __toString(): string
     {
         return sprintf('%dHP', $this->value);
+    }
+
+    public function subtract(HP $other): self
+    {
+        return self::fromValue($this->value - $other->value);
+    }
+
+    public function equals(HP $other): bool
+    {
+        return $this->value === $other->value;
     }
 }

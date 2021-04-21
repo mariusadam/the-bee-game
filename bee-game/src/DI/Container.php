@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BeeGame\DI;
 
+use InvalidArgumentException;
+
 /**
  * Simple dependency container implementation, it
  * does not handle circular references or does any advanced stuff
@@ -33,7 +35,7 @@ class Container
     {
         $factory = $this->serviceFactories[$serviceId] ?? null;
         if (null === $factory) {
-            throw new \InvalidArgumentException(sprintf('Service "%s" is not defined.', $serviceId));
+            throw new InvalidArgumentException(sprintf('Service "%s" is not defined.', $serviceId));
         }
 
         return $factory($this);
@@ -48,6 +50,6 @@ class Container
             return $this->parameters[$parameterName];
         }
 
-        throw new \InvalidArgumentException(sprintf('Parameter "%s" is not defined.', $parameterName));
+        throw new InvalidArgumentException(sprintf('Parameter "%s" is not defined.', $parameterName));
     }
 }

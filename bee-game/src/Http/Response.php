@@ -33,6 +33,7 @@ class Response
     public static function forRedirectTo(string $targetUrl): self
     {
         $headers = [sprintf('Location: %s', $targetUrl)];
+
         return new self(self::HTTP_FOUND, '', $headers);
     }
 

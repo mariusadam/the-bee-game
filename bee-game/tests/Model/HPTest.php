@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Model;
 
 use BeeGame\Model\HP;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class HPTest extends TestCase
@@ -14,7 +15,7 @@ class HPTest extends TestCase
      */
     public function testFromValueThrowsInvalidArgumentExceptionForInvalidValue(int $value): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid health points, must be a value within [0,100] interval.');
         HP::fromValue($value);
     }

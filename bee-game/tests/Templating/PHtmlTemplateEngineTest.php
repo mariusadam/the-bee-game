@@ -11,13 +11,6 @@ class PHtmlTemplateEngineTest extends TestCase
 {
     private PHtmlTemplateEngine $templateEngine;
 
-    protected function setUp(): void
-    {
-        $this->templateEngine = new PHtmlTemplateEngine(
-            __DIR__.'/fixtures/'
-        );
-    }
-
     public function testRender(): void
     {
         $expectedOutput = <<<EXPECTED_OUTPUT
@@ -28,5 +21,12 @@ EXPECTED_OUTPUT;
 
         $params = ['testValue' => '<tag>This is a test</tag>'];
         self::assertSame($expectedOutput, $this->templateEngine->render('test-template', $params));
+    }
+
+    protected function setUp(): void
+    {
+        $this->templateEngine = new PHtmlTemplateEngine(
+            __DIR__.'/fixtures/'
+        );
     }
 }

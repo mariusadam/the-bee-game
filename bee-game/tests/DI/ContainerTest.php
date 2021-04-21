@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\DI;
 
 use BeeGame\DI\Container;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ContainerTest extends TestCase
@@ -32,7 +33,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container([], []);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Service "test_service" is not defined.');
 
         $container->get('test_service');
@@ -42,7 +43,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container([], []);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Parameter "test_param" is not defined.');
 
         $container->getParameter('test_param');

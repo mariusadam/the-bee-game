@@ -9,7 +9,6 @@ use BeeGame\Http\ControllerInterface;
 use BeeGame\Http\Request;
 use BeeGame\Http\Response;
 use BeeGame\Http\Session;
-use BeeGame\Templating\TemplateEngineInterface;
 
 class NewGameController implements ControllerInterface
 {
@@ -24,7 +23,8 @@ class NewGameController implements ControllerInterface
 
     public function __invoke(Request $request): Response
     {
-        $playerName = $request->getPostFields()['playerName'];
+        $playerName = $request->getPostFields()['playerName'] ?? 'No name';
+
         $game = $this->gameFactory->createNewGame($playerName);
         $this->session->set('game', $game);
 
