@@ -20,7 +20,7 @@ class HPTest extends TestCase
         HP::fromValue($value);
     }
 
-    public function fromValueThrowsInvalidArgumentExceptionForInvalidValueProvider(): iterable
+    public static function fromValueThrowsInvalidArgumentExceptionForInvalidValueProvider(): iterable
     {
         yield 'for negative value' => [-1];
         yield 'for value greater than 100' => [101];

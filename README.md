@@ -17,3 +17,4 @@ Now the game should be available in the browser at http://localhost:8080/
 * this may seem a bit over-engineered, but I had some fun creating it from scratch
 * the idea of the game is that you can randomly hit a bee until the queen dies,
 when the queen dies, all the bees die, and the game restarts itself.
+* get a shell inside the container using `docker-compose run --rm --user ${UID} -it php sh`

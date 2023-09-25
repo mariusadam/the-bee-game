@@ -55,7 +55,7 @@ class HitBeeControllerTest extends TestCase
         $this->session
             ->expects(self::exactly(2))
             ->method('set')
-            ->withConsecutive(
+            ->willReturnOnConsecutiveCalls(
                 ['game', $newGame],
                 ['lastMessage', 'The previous game finished, a new one has been created.']
             );

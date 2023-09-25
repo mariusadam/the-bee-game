@@ -1,4 +1,4 @@
-FROM php:7.4.16-alpine
+FROM php:8.1-alpine
 
 # Copy Composer from official composer image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
